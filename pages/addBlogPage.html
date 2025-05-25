@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nhập thông tin bài viết</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+        }
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+        }
+
+        button {
+            padding: 10px;
+            background: green;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Nhập thông tin sản phẩm</h2>
+    <form id="productForm">
+        <div class="form-group">
+            <label for="title">Tên bài viết</label>
+            <input type="text" id="title" required>
+        </div>
+
+        <div class="form-group">
+            <label for="content">Content</label>
+            <textarea id="content" rows="5" required></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="image">Ảnh bài viết</label>
+            <input type="url" id="image" required>
+        </div>
+
+        <div class="form-group">
+            <label for="view">Lượt xem</label>
+            <input type="number" id="view" required>
+        </div>
+
+
+
+        <button type="submit">Thêm sản phẩm</button>
+    </form>
+
+</body>
+
+
+
+<script type="module">
+
+    import { db } from "../config/firebase.js";
+    import { collection, getDocs, addDoc, query, orderBy, limit, startAfter } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+    async function addProduct(product) {
+        try {
+            const docRef = await addDoc(collection(db, "Blogs"), product);
+            console.log("Sản phẩm đã được thêm với ID:", docRef.id);
+        } catch (error) {
+            console.error("Lỗi khi thêm sản phẩm Firestore:", error);
+        }
+    }
+
+    // Wait for form submission
+    document.getElementById('productForm').addEventListener('submit', async function (event) {
+        event.preventDefault(); // Prevent default form submission (page reload)
+
+        // Get values from the form fields
+        const blogTitle = document.getElementById("title").value;
+        const blogView = document.getElementById("view").value;
+        const blogImage = document.getElementById("image").value;
+        const blogContent = document.getElementById("content").value;
+
+        // Create the product object to add to Firestore
+        const newProduct = {
+            title: blogTitle,
+            views: Number.parseInt(blogView),
+            image: blogImage,
+            content: blogContent,
+            createdAt: new Date().toLocaleDateString(),
+        };
+
+        console.log(newProduct); // Log the new product to check
+
+        try {
+            // Add the product to Firestore
+            await addProduct(newProduct);
+            alert("Sản phẩm đã được thêm thành công!");
+        } catch (error) {
+            console.error("Lỗi khi thêm sản phẩm:", error);
+        }
+    });
+</script>
+<script type="module" src="../config/firebase.js"></script>
+<!-- <script type="module" src="../Firebase/firebaseService.js"></script> -->
+
+</html>

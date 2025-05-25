@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Addresses - Coffee Store</title>
+    <script src="../js/index.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            max-width: 800px;
+            margin-top: 50px;
+        }
+
+        .card {
+            border-radius: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <!-- Sidebar -->
+            <nav id="sidebar" class="col-md-3 col-lg-2 sidebar text-white"></nav>
+            <script>
+                load("#sidebar", "../components/sidebar/sidebar.html");
+            </script>
+
+
+            <!-- Main Content -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-4 ">
+                <div class="">
+                    <h2 style="color: #006F3C;">Manage Your Addresses</h2>
+                    <p class="">Thêm, chỉnh sửa hoặc xóa địa chỉ giao hàng của bạn.</p>
+
+                    <div id="address-list" class="row">
+                        <!-- Danh sách địa chỉ sẽ hiển thị ở đây -->
+                    </div>
+
+                    <button class="btn btn-primary w-100 mt-3" data-bs-toggle="modal" data-bs-target="#addAddressModal">
+                        + Thêm địa chỉ mới
+                    </button>
+                </div>
+
+                <!-- Modal Thêm Địa Chỉ -->
+                <div class="modal fade" id="addAddressModal" tabindex="-1" aria-labelledby="addAddressLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="addAddressLabel">Thêm địa chỉ mới</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="address-form">
+                                    <div class="mb-3">
+                                        <label for="fullName" class="form-label">Họ và tên</label>
+                                        <input type="text" class="form-control" id="fullName" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="phone" class="form-label">Số điện thoại</label>
+                                        <input type="text" class="form-control" id="phone" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="address" class="form-label">Địa chỉ</label>
+                                        <input type="text" class="form-control" id="address" required>
+                                    </div>
+                                    <button id="btnSubmit" class="btn btn-success w-100">Lưu địa
+                                        chỉ</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal -->
+                <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="updateModalLabel">Cập nhật địa chỉ</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="update-form">
+
+                                    <div class="mb-3">
+                                        <label for="fullNameUpdate" class="form-label">Họ và tên</label>
+                                        <input type="text" class="form-control" id="fullNameUpdate" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="phoneUpdate" class="form-label">Số điện thoại</label>
+                                        <input type="text" class="form-control" id="phoneUpdate" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="addressUpdate" class="form-label">Địa chỉ</label>
+                                        <input type="text" class="form-control" id="addressUpdate" required>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary" id="btnUpdateConfirm">Save
+                                    changes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+
+</body>
+<script>
+    let currentUser = JSON.parse(localStorage.getItem("currentUser"));
+    let address = JSON.parse(localStorage.getItem("addresses"));
+    document.getElementById('username').innerHTML = currentUser.username;
+
+
+    document.getElementById('register_day').innerHTML = currentUser.createdAt;
+
+    document.getElementById('avatar_sidebar').src = currentUser.avata ? currentUser.avata : 'https://bookvexe.vn/wp-content/uploads/2023/04/chon-loc-25-avatar-facebook-mac-dinh-chat-nhat_2.jpg';
+    console.log(currentUser);
+
+
+
+</script>
+<script type="module" src="../config/firebase.js"></script>
+<script type="module">
+    import { db } from "../config/firebase.js";
+    import { collection, getDocs, query, where, updateDoc, deleteDoc, addDoc, doc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+    async function getAddress() {
+        const q = query(collection(db, "Addresses"), where("userId", "==", currentUser.userId));
+        const querySnapshot = await getDocs(q);
+        let addressesArr = [];
+        querySnapshot.forEach((doc) => {
+            addressesArr.push({ ...doc.data(), id: doc.id });
+        });
+
+        console.log(addressesArr);
+
+        renderAddresses(addressesArr);
+        localStorage.setItem("addresses", JSON.stringify(addressesArr));
+
+        // return addressesArr;
+    }
+
+    document.getElementById("logoutBtn").addEventListener('click', async () => {
+        try {
+            const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+            const userRef = doc(db, "Users", currentUser.userId);
+            await updateDoc(userRef, {
+                isLoggin: false
+            });
+
+            localStorage.removeItem('currentUser');
+            window.location.href = '../index.html';
+        } catch (error) {
+            console.error("Lỗi khi cập nhật tài khoản: ", error);
+            alert("Lỗi hệ thống, vui lòng thử lại!");
+        }
+        localStorage.removeItem('currentUser');
+        window.location.href = '../index.html';
+
+    })
+
+    function renderAddresses(addresses) {
+        const addressList = document.getElementById("address-list");
+        addressList.innerHTML = "";
+
+        // Lấy địa chỉ đã chọn từ localStorage
+        const savedAddress = localStorage.getItem("selectedAddress");
+
+        addresses.forEach((address, index) => {
+            const isChecked = savedAddress === address.address ? "checked" : "";
+
+            addressList.innerHTML += `
+            <div class="col-lg-12 col-md-12 d-flex justify-content-between align-items-center col-sm-12 border mx-2 border-black shadow-lg rounded p-3 mb-3">
+                <div>
+                    <h5 style="color: #006F3C;">${address.fullName}</h5>
+                    <p><strong>Số điện thoại:</strong> ${address.phone}</p>
+                    <p class="overflow-hidden" style="text-overflow: ellipsis ; white-space: nowrap;">
+                        <strong>Địa chỉ:</strong> <span>${address.address}</span>
+                    </p>
+                    <div class="w-100 d-flex gap-2">
+                        <button class="btn btn-danger w-50 btn-sm deletedBtn" onclick="deleteAddress('${address.id}')">Xóa</button>
+   
+                        <button class="btn btn-success w-50 btnUpdate" data-bs-toggle="modal" onclick="updateAddress('${address.id}')" data-bs-target="#updateModal">
+                            Update
+                        </button>
+                    </div>
+                </div>    
+                <div>
+                    <input type="radio" name="address" value="${address.address}" data-id="${address.id}" class="address-radio" style="width: 20px; height: 20px;" ${isChecked}>
+                </div>
+            </div>
+        `;
+        });
+
+        // Lắng nghe sự kiện chọn radio
+        document.querySelectorAll(".address-radio").forEach(radio => {
+            radio.addEventListener("click", function () {
+                console.log("Địa chỉ đang chọn:", this.value);
+                localStorage.setItem("selectedAddress", this.value);
+            });
+        });
+    }
+
+    // Gọi lại hàm render khi trang load để duy trì trạng thái radio
+    document.addEventListener("DOMContentLoaded", function () {
+        getAddress();
+    });
+
+    document.addEventListener("DOMContentLoaded", () => {
+        document.getElementById('btnSubmit').addEventListener("click", async (event) => {
+            event.preventDefault();
+
+            // Lấy giá trị từ form
+            const addressField = document.querySelector('#address').value.trim();
+            const phone = document.querySelector('#phone').value.trim();
+            const fullName = document.querySelector('#fullName').value.trim();
+
+            // Kiểm tra currentUser có tồn tại không
+            let currentUser = JSON.parse(localStorage.getItem("currentUser"));
+            if (!currentUser || !currentUser.userId) {
+                alert("Không tìm thấy thông tin người dùng. Vui lòng đăng nhập lại!");
+                return;
+            }
+
+            // Kiểm tra các trường nhập có rỗng không
+            if (!addressField || !phone || !fullName) {
+                alert("Vui lòng nhập đầy đủ thông tin!");
+                return;
+            }
+
+            // Kiểm tra số điện thoại có hợp lệ không (chỉ chứa số, từ 8-15 chữ số)
+            if (!/^\d{10}$/.test(phone)) {
+                alert("Số điện thoại không hợp lệ! Vui lòng nhập 10 chữ số.");
+                return;
+            }
+
+            // Lấy danh sách địa chỉ từ localStorage
+            let addressesArr = JSON.parse(localStorage.getItem('addresses')) || [];
+
+            // Tạo object địa chỉ mới
+            const newAddress = {
+                fullName: fullName,
+                phone: phone,
+                address: addressField,
+                userId: currentUser.userId
+            };
+
+            try {
+                // Thêm vào Firestore
+                const docRef = await addDoc(collection(db, "Addresses"), newAddress);
+                console.log("Đã thêm địa chỉ với ID:", docRef.id);
+
+                alert("Thêm địa chỉ thành công!");
+
+                // Cập nhật localStorage
+                addressesArr.push(newAddress);
+                localStorage.setItem('addresses', JSON.stringify(addressesArr));
+
+                // Reset form sau khi thêm thành công
+                document.getElementById("address-form").reset();
+
+                window.location.reload();
+
+            } catch (error) {
+                console.error("Lỗi khi thêm địa chỉ:", error);
+                alert("Lỗi hệ thống, vui lòng thử lại!");
+            }
+        });
+    });
+
+
+    window.updateAddress = function (addressId) {
+        const addressList = JSON.parse(localStorage.getItem("addresses"));
+        const address = addressList.find(address => address.id === addressId);
+
+        if (!address) {
+            alert("Không tìm thấy địa chỉ!");
+            return;
+        }
+
+        console.log("Cập nhật địa chỉ:", address);
+
+        document.getElementById('fullNameUpdate').value = address.fullName;
+        document.getElementById('phoneUpdate').value = address.phone;
+        document.getElementById('addressUpdate').value = address.address;
+
+        document.getElementById('btnUpdateConfirm').setAttribute("onclick", `confirmUpdate('${addressId}')`);
+    };
+
+    window.confirmUpdate = async function (addressId) {
+        const fullName = document.getElementById('fullNameUpdate').value.trim();
+        const phone = document.getElementById('phoneUpdate').value.trim();
+        const addressField = document.getElementById('addressUpdate').value.trim();
+
+        if (!fullName || !phone || !addressField) {
+            alert("Vui lòng nhập đầy đủ thông tin!");
+            return;
+        }
+
+        if (!/^\d{10}$/.test(phone)) {
+            alert("Số điện thoại không hợp lệ! Vui lòng nhập 10 chữ số.");
+            return;
+        }
+
+        try {
+            // Cập nhật dữ liệu trong Firestore
+            const addressRef = doc(db, "Addresses", addressId);
+            await updateDoc(addressRef, {
+                fullName: fullName,
+                phone: phone,
+                address: addressField
+            });
+
+            alert("Cập nhật địa chỉ thành công!");
+
+            // Cập nhật localStorage
+            let addresses = JSON.parse(localStorage.getItem("addresses")) || [];
+            addresses = addresses.map(addr => addr.id === addressId ? { ...addr, fullName, phone, address: addressField } : addr);
+            localStorage.setItem("addresses", JSON.stringify(addresses));
+
+            // Reload lại trang để cập nhật UI
+            window.location.reload();
+        } catch (error) {
+            console.error("Lỗi khi cập nhật địa chỉ:", error);
+            alert("Lỗi hệ thống, vui lòng thử lại!");
+        }
+    };
+
+
+    window.deleteAddress = async function (addressId) {
+        if (!confirm("Bạn có chắc chắn muốn xóa địa chỉ này?")) {
+            return;
+        }
+
+        try {
+            // Xóa địa chỉ từ Firestore
+            await deleteDoc(doc(db, "Addresses", addressId));
+
+            // Xóa địa chỉ khỏi localStorage nếu trùng với địa chỉ đã chọn
+            const selectedAddress = localStorage.getItem("selectedAddress");
+            if (selectedAddress === addressId) {
+                localStorage.removeItem("selectedAddress");
+            }
+
+            alert("Xóa địa chỉ thành công!");
+
+            // Reload lại danh sách địa chỉ sau khi xóa
+            window.location.reload();
+        } catch (error) {
+            console.error("Lỗi khi xóa địa chỉ:", error);
+            alert("Lỗi hệ thống, vui lòng thử lại!");
+        }
+    };
+
+</script>
+
+
+
+</html>

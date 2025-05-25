@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en" style="scroll-behavior: smooth;">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="../js/index.js"></script>
+</head>
+<style>
+    .card {
+        width: 12rem;
+    }
+
+    @media screen and (max-width: 768px) {
+        .card {
+            width: 100%;
+        }
+
+    }
+</style>
+
+
+<body>
+    <header id="header" class="header"></header>
+    <script>
+        load("#header", "../components/header/header.html");
+    </script>
+    <nav id="navbar" class="navbar p-0"></nav>
+    <script>
+        load("#navbar", "../components/navbar/navbar.html");
+    </script>
+
+    <div class="container mt-5">
+
+        <main class="row">
+            <section class="col-lg-3">
+                <nav class="p-3 border h-100">
+                    <ul class="d-flex flex-column gap-lg-4">
+                        <li class="fs-6 list-unstyled"><a class="text-decoration-none " href="./menu.html">Tất cả</a>
+                        </li>
+                        <li class="fs-6 list-unstyled"><a class="text-decoration-none "
+                                href="./smallPages/NewYearCollection.html">Hộp quà Tết "Mùa Hoa
+                                Nở"</a></li>
+                        <li class="fs-6 list-unstyled ">
+                            <a class="text-decoration-none  drinkClickedItem">Thức uống</a>
+                            <ul class="subnav drinkSubnav">
+                                <li style="list-style-type:square ;"><a class="text-decoration-none "
+                                        href="./smallPages/Tiramisu.html">Bst
+                                        mới "Tiramisu"</a>
+                                </li>
+                                <li style="list-style-type:square ;"><a class="text-decoration-none "
+                                        href="./smallPages/bestSeller.html">Best
+                                        Seller</a></li>
+                                <li style="list-style-type:square ;"><a class="text-decoration-none "
+                                        href="./smallPages/fruitTea.html">Trà
+                                        trái cây</a></li>
+                                <li style="list-style-type:square ;"><a class="text-decoration-none "
+                                        href="./smallPages/milkTea.html">Trà
+                                        Sữa</a>
+                                <li style="list-style-type:square ;"><a class="text-decoration-none "
+                                        href="./smallPages/Silky.html">Kem
+                                        Silky</a>
+                                <li style="list-style-type:square ;"><a class="text-decoration-none "
+                                        href="./smallPages/Coffe.html">Cà
+                                        Phê</a>
+                                <li style="list-style-type:square ;"><a class="text-decoration-none "
+                                        href="./smallPages/CrushedIce.html">Đá
+                                        xay</a>
+                                <li style="list-style-type:square ;"><a class="text-decoration-none "
+                                        href="./smallPages/OriginTea.html">Trà
+                                        nguyên bản</a>
+                            </ul>
+                        </li>
+                        <li class="fs-6 list-unstyled">
+                            <a class="text-decoration-none cakeClickedItem">Bánh</a>
+                            <ul class="subnav cakeSubnav">
+                                <li style="list-style-type:square ;"><a class="text-decoration-none "
+                                        href="./smallPages/coldCake.html">Bánh
+                                        lạnh</a>
+                                </li>
+                                <li style="list-style-type:square ;"><a class="text-decoration-none "
+                                        href="./smallPages/cookies.html">Bánh
+                                        Cookies - Croissant</a></li>
+                                <li style="list-style-type:square ;"><a class="text-decoration-none "
+                                        href="./smallPages/bread.html">Bánh
+                                        mì</a></li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </nav>
+            </section>
+            <section class="col-lg-9">
+
+                <h3 style="color: #006F3C;" class="mt-4">Hộp quà tết "mùa hoa nở"</h3>
+                <div id="newYear_collection" class="container row"></div>
+                <h3 style="color: #006F3C;" class="mt-4">Bst mới "tiramisu"</h3>
+                <div id="tiramisu_collection" class="container row"></div>
+                <h3 style="color: #006F3C;" class="mt-4">Best Seller</h3>
+                <div id="best_seller_collection" class="container row"></div>
+                <h3 style="color: #006F3C;" class="mt-4">Trà trái cây</h3>
+                <div id="fruit_tea_collection" class="container row"></div>
+                <h3 style="color: #006F3C;" class="mt-4">Trà Sữa</h3>
+                <div id="milk_tea" class="container row"></div>
+                <h3 style="color: #006F3C;" class="mt-4">Kem silky</h3>
+                <div id="silky_icecream" class="container row"></div>
+                <h3 style="color: #006F3C;" class="mt-4">Cà phê</h3>
+                <div id="coffe" class="container row"></div>
+                <h3 style="color: #006F3C;" class="mt-4">Đá xay</h3>
+                <div id="crushed_ice" class="container row"></div>
+                <h3 style="color: #006F3C;" class="mt-4">Trà nguyên bản</h3>
+                <div id="origin_tea" class="container row"></div>
+                <h3 style="color: #006F3C;" class="mt-4">Bánh lạnh</h3>
+                <div id="cold_cake" class="container row"></div>
+                <h3 style="color: #006F3C;" class="mt-4">Bánh cookies - croissant</h3>
+                <div id="cookies" class="container row"></div>
+                <h3 style="color: #006F3C;" class="mt-4">Bánh mì</h3>
+                <div id="bread" class="container row"></div>
+            </section>
+        </main>
+    </div>
+    <footer id="footer"></footer>
+    <script>
+        load("#footer", "../components/footer/footer.html");
+    </script>
+</body>
+
+<script type="module" src="../components/header/header.js"></script>
+<script type="module" src="../config/firebase.js"></script>
+<script type="module" src="../js/menu.js"></script>
+
+
+
+
+</html>

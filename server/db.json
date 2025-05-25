@@ -1,0 +1,224 @@
+{
+    "stores": [
+        {
+            "name": "Phúc Long Nguyễn Huệ",
+            "address": "42 Nguyễn Huệ, Quận 1, TP.HCM",
+            "location": {
+                "lat": 10.774598,
+                "lng": 106.703171
+            },
+            "openingHours": "07:00",
+            "closingHours": "22:00",
+            "id": "pl001"
+        },
+        {
+            "name": "Phúc Long Landmark 81",
+            "address": "Tầng B1, Landmark 81, Bình Thạnh, TP.HCM",
+            "location": {
+                "lat": 10.793213,
+                "lng": 106.720302
+            },
+            "openingHours": "07:00",
+            "closingHours": "22:00",
+            "id": "pl002"
+        },
+        {
+            "name": "Phúc Long Vincom Đồng Khởi",
+            "address": "Tầng B2, Vincom Đồng Khởi, Quận 1, TP.HCM",
+            "location": {
+                "lat": 10.777693,
+                "lng": 106.704695
+            },
+            "openingHours": "07:00",
+            "closingHours": "22:00",
+            "id": "pl003"
+        },
+        {
+            "name": "Phúc Long Crescent Mall",
+            "address": "Tầng 3, Crescent Mall, Quận 7, TP.HCM",
+            "location": {
+                "lat": 10.729219,
+                "lng": 106.721546
+            },
+            "openingHours": "07:30",
+            "closingHours": "22:00",
+            "id": "pl004"
+        },
+        {
+            "name": "Phúc Long Giga Mall",
+            "address": "Tầng B1, Giga Mall, Thủ Đức, TP.HCM",
+            "location": {
+                "lat": 10.830779,
+                "lng": 106.751988
+            },
+            "openingHours": "07:30",
+            "closingHours": "22:00",
+            "id": "pl005"
+        },
+        {
+            "name": "Phúc Long Aeon Mall Tân Phú",
+            "address": "Tầng 3, Aeon Mall Tân Phú, TP.HCM",
+            "location": {
+                "lat": 10.804215,
+                "lng": 106.630222
+            },
+            "openingHours": "08:00",
+            "closingHours": "22:00",
+            "id": "pl006"
+        },
+        {
+            "name": "Phúc Long Pearl Plaza",
+            "address": "561 Điện Biên Phủ, Bình Thạnh, TP.HCM",
+            "location": {
+                "lat": 10.793024,
+                "lng": 106.716401
+            },
+            "openingHours": "07:30",
+            "closingHours": "22:00",
+            "id": "pl007"
+        },
+        {
+            "name": "Phúc Long Bitexco",
+            "address": "Tầng G, Bitexco Tower, Quận 1, TP.HCM",
+            "location": {
+                "lat": 10.771466,
+                "lng": 106.704692
+            },
+            "openingHours": "07:00",
+            "closingHours": "22:00",
+            "id": "pl008"
+        },
+        {
+            "name": "Phúc Long Vincom Bà Triệu",
+            "address": "Tầng 5, Vincom Bà Triệu, Hai Bà Trưng, Hà Nội",
+            "location": {
+                "lat": 21.017892,
+                "lng": 105.849645
+            },
+            "openingHours": "08:00",
+            "closingHours": "22:00",
+            "id": "pl009"
+        },
+        {
+            "name": "Phúc Long Royal City",
+            "address": "Tầng B1, Royal City, Thanh Xuân, Hà Nội",
+            "location": {
+                "lat": 20.993689,
+                "lng": 105.812225
+            },
+            "openingHours": "08:00",
+            "closingHours": "22:00",
+            "id": "pl010"
+        },
+        {
+            "name": "Phúc Long Aeon Mall Hà Đông",
+            "address": "Tầng 3, Aeon Mall Hà Đông, Hà Nội",
+            "location": {
+                "lat": 20.961732,
+                "lng": 105.746498
+            },
+            "openingHours": "08:00",
+            "closingHours": "22:00",
+            "id": "pl011"
+        },
+        {
+            "name": "Phúc Long Times City",
+            "address": "Tầng B1, Times City, Hoàng Mai, Hà Nội",
+            "location": {
+                "lat": 20.994207,
+                "lng": 105.867727
+            },
+            "openingHours": "08:00",
+            "closingHours": "22:00",
+            "id": "pl012"
+        },
+        {
+            "name": "Phúc Long Nguyễn Văn Cừ",
+            "address": "378 Nguyễn Văn Cừ, Long Biên, Hà Nội",
+            "location": {
+                "lat": 21.051536,
+                "lng": 105.889311
+            },
+            "openingHours": "08:00",
+            "closingHours": "22:00",
+            "id": "pl013"
+        },
+        {
+            "name": "Phúc Long Cầu Giấy",
+            "address": "289 Cầu Giấy, Hà Nội",
+            "location": {
+                "lat": 21.036625,
+                "lng": 105.790957
+            },
+            "openingHours": "07:30",
+            "closingHours": "22:00",
+            "id": "pl014"
+        },
+        {
+            "name": "Phúc Long Tô Hiến Thành",
+            "address": "2A Tô Hiến Thành, Quận 10, TP.HCM",
+            "location": {
+                "lat": 10.771001,
+                "lng": 106.668421
+            },
+            "openingHours": "07:00",
+            "closingHours": "22:00",
+            "id": "pl015"
+        },
+        {
+            "name": "Phúc Long Quang Trung",
+            "address": "763 Quang Trung, Gò Vấp, TP.HCM",
+            "location": {
+                "lat": 10.839429,
+                "lng": 106.665107
+            },
+            "openingHours": "07:30",
+            "closingHours": "22:00",
+            "id": "pl016"
+        },
+        {
+            "name": "Phúc Long Phan Văn Trị",
+            "address": "240 Phan Văn Trị, Gò Vấp, TP.HCM",
+            "location": {
+                "lat": 10.822374,
+                "lng": 106.693844
+            },
+            "openingHours": "07:30",
+            "closingHours": "22:00",
+            "id": "pl017"
+        },
+        {
+            "name": "Phúc Long Võ Văn Ngân",
+            "address": "98 Võ Văn Ngân, Thủ Đức, TP.HCM",
+            "location": {
+                "lat": 10.850471,
+                "lng": 106.753961
+            },
+            "openingHours": "07:30",
+            "closingHours": "22:00",
+            "id": "pl018"
+        },
+        {
+            "name": "Phúc Long Bình Dương",
+            "address": "Aeon Mall Bình Dương, TP. Thủ Dầu Một, Bình Dương",
+            "location": {
+                "lat": 10.970699,
+                "lng": 106.667696
+            },
+            "openingHours": "08:00",
+            "closingHours": "22:00",
+            "id": "pl019"
+        },
+        {
+            "name": "Phúc Long Đà Nẵng",
+            "address": "Tầng 1, Vincom Ngô Quyền, Sơn Trà, Đà Nẵng",
+            "location": {
+                "lat": 16.075382,
+                "lng": 108.227030
+            },
+            "openingHours": "08:00",
+            "closingHours": "22:00",
+            "id": "pl020"
+        }
+    ]
+}

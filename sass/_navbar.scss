@@ -1,0 +1,107 @@
+nav {
+    // position: fixed;
+    // top: 0;
+
+    ul {
+        li {
+            a {
+                color: #333;
+
+                &:hover {
+                    color: #006F3C;
+                }
+            }
+        }
+
+        .menu-hover {
+            position: relative;
+
+            .submenu {
+                position: absolute;
+                top: 100%;
+                background-color: #ffffff;
+                border: 1px solid #ccc;
+                width: 500px;
+                border-radius: 5px;
+                left: -200%;
+                z-index: 10;
+                padding: 20px;
+                display: none;
+
+                .submenu_above {
+                    display: flex;
+                    align-items: baseline;
+                    justify-content: space-around;
+
+                    .submenu-item__title {
+                        &:hover {
+
+                            background-color: white;
+
+                            a {
+                                color: #006F3C;
+                            }
+                        }
+                    }
+
+                    .submenu-item {
+                        cursor: pointer;
+
+                        &:hover {
+
+                            background-color: #006F3C;
+
+                            a {
+                                color: #ffffff;
+                            }
+                        }
+                    }
+                }
+
+                .submenu_under {
+                    .submenu-item__title {
+                        &:hover {
+
+                            background-color: white;
+
+                            a {
+                                color: #006F3C;
+                            }
+                        }
+                    }
+
+                    .submenu-item {
+                        cursor: pointer;
+                        display: block;
+                        width: 100%;
+
+                        &:hover {
+
+                            background-color: #006F3C;
+
+                            a {
+                                color: #ffffff;
+                            }
+                        }
+                    }
+                }
+            }
+
+            &:hover .submenu {
+                display: block;
+            }
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    #navbar {
+        display: none;
+    }
+}
+
+@media (max-width: 546px) {
+    #navbar {
+        display: none;
+    }
+}

@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <title>Wallet and Account Info</title>
+    <script src="../js/index.js"></script>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .sidebar {
+            background-color: #006F3C;
+            height: 100vh;
+            padding: 20px;
+        }
+
+        .card {
+            margin-bottom: 20px;
+        }
+
+        a {
+            color: white;
+        }
+
+        .payment-cart {
+            position: relative;
+            height: 190px;
+            padding: 20px;
+            color: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .payment-cart__img {
+            position: absolute;
+            top: 0;
+            right: 0;
+            z-index: 0;
+        }
+
+        .payment-cart__top {
+            display: flex;
+            align-items: center;
+            /* gap: 6px; */
+        }
+
+        .payment-cart__type {
+            font-size: 1.4rem;
+            font-weight: 500;
+            line-height: 142.857%;
+            /* 142.857% */
+        }
+
+        .payment-cart__number {
+            /* margin-top: 37px; */
+            font-size: 1.6rem;
+            font-weight: 500;
+            line-height: 144.444%;
+        }
+
+        .payment-cart__bottom {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            margin-top: 20px;
+        }
+
+        .payment-cart__label {
+            font-size: 0.8rem;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 175%;
+            /* 175% */
+        }
+
+        .payment-cart__value {
+            font-size: 1rem;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 140%;
+            /* 140% */
+        }
+
+        .payment-cart__circle {
+            margin-left: auto;
+            z-index: 1;
+            width: 42px;
+            height: 28px;
+            flex-shrink: 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+
+            <nav class="col-md-3 col-lg-2 sidebar text-white">
+                <div class="text-center">
+                    <img src="" id="avatar_sidebar" alt="Avatar" class="img-fluid rounded-circle"
+                        style="width: 100px; height: 100px;">
+                    <h5 id="username"></h5>
+                    <p class="fw-medium">Registered:<span id="register_day" class="fw-bold "></span></p>
+                </div>
+                <h6><a href="./home.html" class="text-decoration-none text-white">Home Page</a></h6>
+                <h6>Manage Account</h6>
+                <ul class="nav flex-column gap-3">
+                    <li class="nav-item ms-3"><a class="text-white text-decoration-none" href="./profile.html">Personal
+                            Infor</a>
+                    </li>
+                    <li class="nav-item ms-3"><a class="text-white text-decoration-none"
+                            href="./address.html">Addresses</a>
+                    </li>
+                    <li class="nav-item ms-3"><a class="text-white text-decoration-none"
+                            href="./privacy.html">Communications
+                            &
+                            privacy</a></li>
+                </ul>
+                <h6 class="my-3">Orders</h6>
+                <ul class="nav flex-column gap-3">
+                    <li class="nav-item ms-3"><a class="text-white text-decoration-none" href="./Order.html">Your
+                            order</a>
+                    </li>
+
+                </ul>
+                <h6 class="my-3">Subscriptions & plans</h6>
+                <ul class="nav flex-column">
+                    <li class="nav-item ms-3"><a class="text-white text-decoration-none"
+                            href="./protection-plans.html">Protection plans</a></li>
+                </ul>
+                <h6 class="my-3">Customer Service</h6>
+                <ul class="nav flex-column gap-3">
+                    <li class="nav-item ms-3"><a class="text-white text-decoration-none"
+                            href="./customer_service.html">Customer Service</a></li>
+
+                </ul>
+                <h6 class="d-flex gap-2 text-white mt-3" style="cursor: pointer;" id="logoutBtn"><i
+                        class="bi bi-box-arrow-left mr-2 d-block"></i>Log out</h6>
+            </nav>
+
+
+            <!-- Main Content -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-4 ">
+                <h2>My Wallet</h2>
+                <h5>Payment Methods</h5>
+                <div class="row" id="cards">
+
+                </div>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                    Add more card
+                </button>
+
+                <h3 class="my-3 fw-bolder">Account Info</h3>
+                <p class="fs-5">Addresses, contact information and email</p>
+                <div class="row  gap-3">
+                    <div class="col-lg-5 col-md-6 col-12 border p-3 rounded-4 shadow">
+                        <div class="row align-items-center">
+                            <div class="col-2">
+                                <img src="../assets/images/icon3.svg" alt="Email Icon" class="w-100 h-100">
+                            </div>
+                            <div class="col-10">
+                                <p class="fw-bold fs-5">Email</p>
+                                <p id="email" class="fs-6 fw-medium"></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-5 col-md-6 col-12 border p-3 rounded-4 shadow">
+                        <div class="row align-items-center">
+                            <div class="col-2">
+                                <img src="../assets/images/icon2.svg" alt="Address Icon" class="w-100 h-100">
+                            </div>
+                            <div class="col-10">
+                                <p class="fw-bold fs-5">Address</p>
+                                <p id="addressText" class="fs-6 fw-medium text-truncate"></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-5 col-md-6 col-12 border p-3 rounded-4 shadow">
+                        <div class="row align-items-center">
+                            <div class="col-2">
+                                <img src="../assets/images/icon3.svg" alt="Phone Icon" class="w-100 h-100">
+                            </div>
+                            <div class="col-10">
+                                <p class="fw-bold fs-5">Phone number</p>
+                                <p id="phoneText" class="fs-6 fw-medium"></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 mt-3">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#updateInformation">
+                            Update Information
+                        </button>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+
+    <!-- Button trigger modal -->
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Card information</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <div class="form-group">
+                            <label for="cardNumber">Card Number</label>
+                            <input type="text" class="form-control" id="cardNumber" placeholder="1234 4567 8901 222">
+                        </div>
+                        <div class="form-group">
+                            <label for="expiryDate">Expiry Date</label>
+                            <input type="text" class="form-control" id="expiryDate" placeholder="12/23">
+                        </div>
+                        <div class="form-group">
+                            <label for="cvv">CVV</label>
+                            <input type="text" class="form-control" id="cvv" placeholder="123">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="cardBtn">Register</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="updateInformation" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Update information</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <div class="form-group">
+                            <label for="avata">Avatar</label>
+                            <input type="text" class="form-control" id="avata" placeholder="https://image.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="address">Address</label>
+                            <input type="text" class="form-control" id="address" placeholder="NamDinh VietNam">
+                        </div>
+                        <div class="form-group">
+                            <label for="phonenumber">Phone Number</label>
+                            <input type="text" class="form-control" id="phonenumber" placeholder="01234567464">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="updateBtn">Update</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script type="module" src="../js/profile.js"></script>
+<script type="module">
+
+    import { db } from "../config/firebase.js";
+    import { addDoc, collection, updateDoc, doc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+    document.addEventListener("DOMContentLoaded", () => {
+        document.getElementById("cardBtn").addEventListener("click", async (event) => {
+            event.preventDefault(); // 🔥 Ngăn reload trang
+
+            const cardNumber = document.getElementById("cardNumber").value.trim();
+            const expiryDate = document.getElementById("expiryDate").value.trim();
+            const cvv = document.getElementById("cvv").value.trim();
+            const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+
+            if (!currentUser || !currentUser.userId) {
+                alert("Lỗi: Không tìm thấy người dùng. Vui lòng đăng nhập lại!");
+                return;
+            }
+
+            if (!cardNumber || !expiryDate || !cvv) {
+                alert("Vui lòng nhập đầy đủ thông tin!");
+                return;
+            }
+
+            // Kiểm tra số thẻ theo định dạng "1234 5678 2424 13"
+            const cardRegex = /^(\d{4} ){3}\d{2}$/;
+            if (!cardRegex.test(cardNumber)) {
+                alert("Số tài khoản phải có định dạng: '1234 5678 2424 13'!");
+                return;
+            }
+
+            // Kiểm tra expiryDate có định dạng MM/YY (tháng từ 01 - 12, năm 2 chữ số)
+            const expiryRegex = /^(0[1-9]|1[0-2])\/\d{2}$/;
+            if (!expiryRegex.test(expiryDate)) {
+                alert("Ngày hết hạn phải có định dạng MM/YY (VD: 12/25)!");
+                return;
+            }
+
+            // Kiểm tra CVV có đúng 3 chữ số
+            const cvvRegex = /^\d{3}$/;
+            if (!cvvRegex.test(cvv)) {
+                alert("CVV phải có đúng 3 chữ số!");
+                return;
+            }
+
+            try {
+                const docRef = await addDoc(collection(db, "Cards"), {
+                    cardNumber,
+                    expiryDate,
+                    cvv,
+                    userId: currentUser.userId,
+                    createdAt: new Date().toISOString()
+                });
+
+                console.log("Thẻ đã được thêm với ID:", docRef.id);
+                alert("Thêm thẻ thành công!");
+
+                // ✅ Reset form sau khi thêm
+                document.getElementById("cardNumber").value = "";
+                document.getElementById("expiryDate").value = "";
+                document.getElementById("cvv").value = "";
+
+            } catch (error) {
+                console.error("Lỗi khi thêm thẻ:", error);
+                alert("Lỗi hệ thống, vui lòng thử lại!");
+            }
+        });
+    });
+
+
+
+
+    document.addEventListener("DOMContentLoaded", () => {
+        document.getElementById("updateBtn").addEventListener("click", async (event) => {
+            event.preventDefault();
+            let avata = document.getElementById("avata").value.trim();
+            let address = document.getElementById("address").value.trim();
+            let phonenumber = document.getElementById("phonenumber").value.trim();
+            const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+
+            if (!currentUser || !currentUser.userId) {
+                alert("Lỗi: Không tìm thấy người dùng. Vui lòng đăng nhập lại!");
+                return;
+            }
+
+            if (!avata || !address || !phonenumber) {
+                alert("Vui lòng nhập đầy đủ thông tin!");
+                return;
+            }
+            const phoneRegex = /^[0-9]{10}$/;
+            if (!phoneRegex.test(phonenumber)) {
+                alert("Số điện thoại không hợp lệ! Vui lòng nhập đúng 10 chữ số.");
+                return;
+            } else {
+                try {
+                    const userRef = doc(db, "Users", currentUser.userId);
+                    await updateDoc(userRef, {
+                        avata: avata,
+                        address: address,
+                        phone: phonenumber
+                    });
+
+                    alert("Cập nhật thông tin thành công!");
+
+                    currentUser.avata = avata;
+                    currentUser.address = address;
+                    currentUser.phone = phonenumber;
+                    localStorage.setItem("currentUser", JSON.stringify(currentUser));
+
+                    document.getElementById("addressText").innerHTML = address;
+                    document.getElementById("phoneText").innerHTML = phonenumber;
+                    document.getElementById("avatar_sidebar").src = avata;
+                } catch (error) {
+                    console.error("Lỗi khi cập nhật tài khoản: ", error);
+                    alert("Lỗi hệ thống, vui lòng thử lại!");
+                }
+            }
+
+
+        });
+    });
+
+
+    document.getElementById("logoutBtn").addEventListener('click', async () => {
+        try {
+            const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+            const userRef = doc(db, "Users", currentUser.userId);
+            await updateDoc(userRef, {
+                isLoggin: false
+            });
+
+            localStorage.removeItem('currentUser');
+            window.location.href = '../index.html';
+        } catch (error) {
+            console.error("Lỗi khi cập nhật tài khoản: ", error);
+            alert("Lỗi hệ thống, vui lòng thử lại!");
+        }
+        localStorage.removeItem('currentUser');
+        window.location.href = '../index.html';
+
+    })
+</script>
+
+
+</html>

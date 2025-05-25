@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en" style="scroll-behavior: smooth;">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <link rel="stylesheet" href="../../css/style.css">
+    <script src="../../js/index.js"></script>
+</head>
+<style>
+    .card {
+        width: 12rem;
+    }
+
+    @media screen and (max-width: 768px) {
+        .card {
+            width: 100%;
+        }
+
+    }
+</style>
+
+
+<body>
+    <header id="header" class="header"></header>
+    <script>
+        load("#header", "../../components/header/header.html");
+    </script>
+    <nav id="navbar" class="navbar p-0"></nav>
+    <script>
+        load("#navbar", "../../components/navbar/navbar.html");
+    </script>
+
+    <div class="container mt-5">
+
+        <main class="row">
+            <section class="col-lg-3">
+                <nav class="p-3 border h-100">
+                    <ul class="d-flex flex-column gap-lg-4">
+                        <li class="fs-6 list-unstyled"><a class="text-decoration-none " href="../menu.html">Tất cả</a>
+                        </li>
+                        <li class="fs-6 list-unstyled"><a class="text-decoration-none "
+                                href="./NewYearCollection.html">Hộp quà Tết "Mùa Hoa
+                                Nở"</a></li>
+                        <li class="fs-6 list-unstyled ">
+                            <a class="text-decoration-none  drinkClickedItem">Thức uống</a>
+                            <ul class="subnav drinkSubnav">
+                                <li style="list-style-type:square ;"><a class="text-decoration-none "
+                                        href="./Tiramisu.html">Bst
+                                        mới "Tiramisu"</a>
+                                </li>
+                                <li style="list-style-type:square ;"><a class="text-decoration-none "
+                                        href="./bestSeller.html">Best
+                                        Seller</a></li>
+                                <li style="list-style-type:square ;"><a class="text-decoration-none "
+                                        href="./fruitTea.html">Trà
+                                        trái cây</a></li>
+                                <li style="list-style-type:square ;"><a class="text-decoration-none "
+                                        href="./milkTea.html">Trà
+                                        Sữa</a>
+                                <li style="list-style-type:square ;"><a class="text-decoration-none "
+                                        href="./Silky.html">Kem
+                                        Silky</a>
+                                <li style="list-style-type:square ;"><a class="text-decoration-none "
+                                        href="./Coffe.html">Cà
+                                        Phê</a>
+                                <li style="list-style-type:square ;"><a class="text-decoration-none "
+                                        href="./CrushedIce.html">Đá
+                                        xay</a>
+                                <li style="list-style-type:square ;"><a class="text-decoration-none "
+                                        href="./OriginTea.html">Trà
+                                        nguyên bản</a>
+                            </ul>
+                        </li>
+                        <li class="fs-6 list-unstyled">
+                            <a class="text-decoration-none cakeClickedItem" href="">Bánh</a>
+                            <ul class="subnav cakeSubnav">
+                                <li class="" style="list-style-type:square ;"><a class="text-decoration-none "
+                                        href="./coldCake.html">Bánh lạnh</a>
+                                </li>
+                                <li class="" style="list-style-type:square ;"><a class="text-decoration-none "
+                                        href="./cookies.html">Bánh Cookies - Croissant</a></li>
+                                <li class="" style="list-style-type:square ;"><a class="text-decoration-none "
+                                        href="./bread.html">Bánh mì</a></li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </nav>
+            </section>
+            <section class="col-lg-9">
+                <h3 style="color: #006F3C;" class="mt-4">Kem Silky</h3>
+                <div id="silky_collection" class="container row"></div>
+            </section>
+        </main>
+    </div>
+    <footer id="footer"></footer>
+    <script>
+        load("#footer", "../../components/footer/footer.html");
+    </script>
+</body>
+
+<script type="module" src="../../components/header/header.js"></script>
+<script type="module" src="../../config/firebase.js"></script>
+<script type="module">
+    import { db } from "../../config/firebase.js";
+    import { collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const menuItems = document.querySelectorAll("nav ul > li > a"); // Tất cả mục menu cấp 1
+        const subnavs = document.querySelectorAll(".subnav"); // Tất cả subnav
+
+        menuItems.forEach((item) => {
+            item.addEventListener("click", (event) => {
+
+
+                const subnav = item.nextElementSibling; // Lấy subnav kế bên (nếu có)
+
+                if (subnav && subnav.classList.contains("subnav")) {
+                    // Đóng tất cả subnav trước khi mở menu mới
+                    subnavs.forEach((nav) => {
+                        if (nav !== subnav) nav.style.display = "none";
+                    });
+
+                    // Toggle hiển thị menu được chọn
+                    subnav.style.display = subnav.style.display === "block" ? "none" : "block";
+                }
+            });
+        });
+
+        // Đóng tất cả menu khi click ra ngoài
+        document.addEventListener("click", () => {
+            subnavs.forEach((subnav) => {
+                subnav.style.display = "none";
+            });
+        });
+    });
+
+
+    //get elements
+    const silky_collection = document.querySelector('#silky_collection');
+    async function getProducts() {
+        try {
+            const querySnapshot = await getDocs(collection(db, "Products"));
+            let products = [];
+
+            querySnapshot.forEach((doc) => {
+                products.push({ id: doc.id, ...doc.data() });
+            });
+
+            return products;
+        } catch (error) {
+            console.error("Lỗi khi lấy dữ liệu Firestore:", error);
+            return [];
+        }
+    }
+
+
+
+    // Hàm hiển thị sản phẩm lên HTML
+    async function displayProducts() {
+
+        const products = await getProducts();
+        products.forEach((product) => {
+            if (product.category === "Kem Silky") {
+                const html = `
+                    <div class="col-lg-3 col-md-6 col-sm-12 mt-2">
+                        <div class="card my-2 mx-2">
+                            <img src="${product.image}" class="card-img-top bg-body-secondary rounded-2 overflow-hidden w-100" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title fw-normal" style="color: #006F3C;">${product.name}</h5>
+                                <p class="card-text fw-bolder" style="color: #006F3C;">${product.price}.000₫</p>
+                                <div class="w-100"> 
+                                    <button class="btn text-white w-100" style="background-color: #006F3C;" 
+                                        onclick="window.location.href='/pages/product_detail.html?id=${product.id}'">
+                                        <i class="bi bi-cart-plus"></i> Xem thêm
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                silky_collection.innerHTML += html; // Append each product's HTML        }
+            }
+        });
+    }
+
+    window.onload = () => {
+        displayProducts();
+    };
+</script>
+
+
+
+
+</html>

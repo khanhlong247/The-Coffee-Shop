@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Communications & Privacy - Phúc Long</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <title>Wallet and Account Info</title>
+    <script src="../js/index.js"></script>
+</head>
+
+<style>
+    .sidebar {
+        background-color: #006F3C;
+        /* height: 100vh; */
+        padding: 20px;
+    }
+</style>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <!-- Sidebar -->
+            <nav id="sidebar" class="col-md-3 col-lg-2 sidebar text-white"></nav>
+            <script>
+                load("#sidebar", "../components/sidebar/sidebar.html");
+            </script>
+
+
+            <!-- Main Content -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-4 overflow-auto" style="max-height: 100vh;">
+                <section class="policy">
+                    <h2>1. Giới thiệu</h2>
+                    <p>Chào mừng bạn đến với Phúc Long! Chúng tôi cam kết bảo vệ quyền riêng tư của bạn và đảm bảo rằng
+                        thông tin cá nhân của bạn được bảo vệ an toàn. Chính sách này giải thích cách chúng tôi thu
+                        thập, sử dụng và bảo vệ dữ liệu của bạn khi bạn sử dụng dịch vụ của chúng tôi.</p>
+                </section>
+
+                <section class="policy">
+                    <h2>2. Thông Tin Chúng Tôi Thu Thập</h2>
+                    <ul>
+                        <li><strong>Thông tin cá nhân:</strong> Họ tên, email, số điện thoại, địa chỉ giao hàng.</li>
+                        <li><strong>Thông tin giao dịch:</strong> Đơn hàng, phương thức thanh toán.</li>
+                        <li><strong>Thông tin thiết bị:</strong> Địa chỉ IP, trình duyệt, hệ điều hành.</li>
+                        <li><strong>Cookie & Công nghệ theo dõi:</strong> Giúp cá nhân hóa trải nghiệm của bạn.</li>
+                    </ul>
+                </section>
+
+                <section class="policy">
+                    <h2>3. Cách Chúng Tôi Sử Dụng Thông Tin</h2>
+                    <p>Thông tin của bạn sẽ được sử dụng cho các mục đích sau:</p>
+                    <ul>
+                        <li>Xử lý và giao đơn hàng.</li>
+                        <li>Cải thiện dịch vụ và trải nghiệm khách hàng.</li>
+                        <li>Gửi thông báo về khuyến mãi, ưu đãi đặc biệt.</li>
+
+                    </ul>
+                </section>
+
+                <section class="policy">
+                    <h2>4. Bảo Mật Thông Tin</h2>
+                    <p>Chúng tôi sử dụng các biện pháp bảo mật nghiêm ngặt để bảo vệ dữ liệu cá nhân của bạn, bao gồm:
+                    </p>
+                    <ul>
+                        <li>Mã hóa dữ liệu.</li>
+                        <li>Hạn chế quyền truy cập vào thông tin cá nhân.</li>
+                        <li>Giám sát hệ thống để phát hiện các hoạt động bất thường.</li>
+                    </ul>
+                </section>
+
+
+
+                <section class="communications">
+                    <h2>6. Quản Lý Thông Tin Liên Lạc</h2>
+                    <form>
+                        <label>
+                            <input type="checkbox" checked> Nhận email khuyến mãi
+                        </label>
+                        <br>
+                        <label>
+                            <input type="checkbox"> Nhận thông báo ứng dụng
+                        </label>
+                        <br>
+                        <button class="btn btn-primary" id="savechange">Lưu Thay Đổi</button>
+                    </form>
+                </section>
+            </main>
+        </div>
+    </div>
+
+</body>
+<script>
+
+    let currentUser = JSON.parse(localStorage.getItem("currentUser"));
+
+    document.getElementById('username').innerHTML = currentUser.username;
+    document.getElementById('register_day').innerHTML = currentUser.createdAt;
+
+    document.getElementById('avatar_sidebar').src = currentUser.avata ? currentUser.avata : 'https://bookvexe.vn/wp-content/uploads/2023/04/chon-loc-25-avatar-facebook-mac-dinh-chat-nhat_2.jpg';
+    console.log(currentUser);
+
+    document.getElementById('savechange').addEventListener('click', (e) => {
+        e.preventDefault();
+        Toastify({
+            text: "Đã lưu thay đổi",
+            duration: 3000,
+            close: true,
+            gravity: "top", // `top` or `bottom`
+            position: "right",
+            stopOnFocus: true, // Prevents dismissing of toast on hover
+            style: {
+                background: "#006F3C",
+                color: "#fff",
+                border: "none",
+                borderRadius: "6px",
+                padding: "10px",
+                fontWeight: "bold",
+                fontFamily: "Arial, sans-serif",
+                fontSize: "16px",
+                lineHeight: "1.5",
+            },
+            onClick: function () { } // Callback after click
+        }).showToast()
+    })
+
+</script>
+<script type="module" src="../config/firebase.js"></script>
+<script type="module">
+    import { db } from "../config/firebase.js"
+    import { updateDoc, doc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+    document.getElementById("logoutBtn").addEventListener('click', async () => {
+        try {
+            const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+            const userRef = doc(db, "Users", currentUser.userId);
+            await updateDoc(userRef, {
+                isLoggin: false
+            });
+
+            localStorage.removeItem('currentUser');
+            window.location.href = '../index.html';
+        } catch (error) {
+            console.error("Lỗi khi cập nhật tài khoản: ", error);
+            alert("Lỗi hệ thống, vui lòng thử lại!");
+        }
+        localStorage.removeItem('currentUser');
+        window.location.href = '../index.html';
+
+    })
+</script>
+
+</html>

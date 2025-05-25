@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
+    </script>
+    <!-- Swiper CSS -->
+
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="../js/index.js"></script>
+    <style>
+        #cvv:focus {
+            outline: none;
+            border: none;
+        }
+
+        #checkPaymentMethod {
+            cursor: pointer;
+            width: 20px;
+            height: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <header id="header" class="header"></header>
+    <script>
+        load("#header", "../components/header/header.html");
+    </script>
+    <nav id="navbar" class="navbar p-0"></nav>
+    <script>
+        load("#navbar", "../components/navbar/navbar.html");
+    </script>
+    <div class="container checkout-container mt-4">
+
+
+        <div class="row">
+            <!-- Order Summary -->
+            <div class="col-md-5 p-4 summary">
+                <h3 style=" color: #006F3C;" class="fw-bold"> Order Summary</h3>
+                <p class="text-success fw-bold">ORDER SUBTOTAL <span class="float-end" id="subtotal"></span></p>
+                <p class="text-success fw-bold">SHIPPING & HANDLING <span class="float-end">0.000₫</span></p>
+                <p class="text-success fw-bold">SALES TAX <span class="float-end">0.000₫</span></p>
+                <hr>
+                <h3 style="color: #006F3C;">PAYMENT DUE <span class="float-end text-success" id="paymentdue"></span>
+                </h3>
+                <div class="return-cart"><a href="./cart.html">Return to cart</a></div>
+            </div>
+
+            <!-- Payment Details -->
+            <div class="col-md-7 payment-details">
+                <h3 style=" color: #006F3C;" class="fw-bold">Payment Details</h3>
+                <div class="d-inline-flex gap-1">
+                    <button class="btn btn-success toggle-btn" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#payWhenReceive" aria-expanded="false">
+                        Trả tiền khi nhận hàng
+                    </button>
+                    <button class="btn btn-success toggle-btn" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#payByQR" aria-expanded="false">
+                        Quét mã để chuyển khoản
+                    </button>
+                    <button class="btn btn-success toggle-btn" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#payByCard" aria-expanded="false">
+                        Trả tiền bằng thẻ tín dụng
+                    </button>
+                </div>
+
+                <div class="collapse mt-4" id="payWhenReceive">
+                    <div class="card card-body">
+                        <h5>Trả tiền khi nhận hàng</h5>
+                        <p>Thanh toán khi nhận hàng</p>
+                        <button class="btn btn-success" id="traditionalPayBtn">Đặt hàng</button>
+                    </div>
+                </div>
+
+                <div class="collapse mt-4" id="payByQR">
+                    <div class="card card-body">
+                        <h5>Quét mã để chuyển khoản</h5>
+                        <p>Quét mã QR để chuyển khoản</p>
+                        <img src="../assets/images/qrcode.png" alt="" height="400px">
+                        <button class="btn btn-success mt-3" id="QRPayBtn">Đặt hàng</button>
+                    </div>
+                </div>
+
+                <div class="collapse mt-4" id="payByCard">
+                    <div class="card card-body">
+                        <div>
+                            <h3>Select Card</h3>
+                            <div id="renderCard">
+
+                            </div>
+
+                        </div>
+
+                        <div class="w-100 mt-3">
+                            <button class="btn btn-success w-100" id="payBtn">Đặt hàng</button>
+
+                        </div>
+                    </div>
+                </div>
+                <p class="text-muted text-center mt-3">This is a secure transaction</p>
+            </div>
+        </div>
+    </div>
+
+    <footer id="footer"></footer>
+    <script>
+        load("#footer", "../components/footer/footer.html");
+    </script>
+
+
+</body>
+<style>
+
+</style>
+<script type="module" src="../config/firebase.js"></script>
+<script type="module" src="../js/checkout.js"></script>
+<script type="module" src="../components/header/header.js"></script>
+<script>
+    const totalAmount = JSON.parse(localStorage.getItem("totalAmount"));
+    document.getElementById("subtotal").innerText = totalAmount ? `${totalAmount}.000₫` : '0.000₫';
+    document.getElementById("paymentdue").innerText = totalAmount ? `${totalAmount}.000₫` : '0.000₫';
+
+    document.querySelectorAll('.toggle-btn').forEach(button => {
+        button.addEventListener('click', function () {
+            // Đóng tất cả các collapse trước khi mở cái mới
+            document.querySelectorAll('.collapse').forEach(collapse => {
+                if (collapse.id !== this.dataset.bsTarget.substring(1)) {
+                    new bootstrap.Collapse(collapse, { toggle: false }).hide();
+                }
+            });
+        });
+    });
+
+    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+
+
+
+
+
+</script>
+
+</html>

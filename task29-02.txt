@@ -1,0 +1,36 @@
+All the task i have to do in 29/12
+
+-check condition when update personal information => done
+
+- try to connect emailJS to send email to the customer when they pay the bill => done
+
+- create a bill when wen they pay, like it is a copy of order/cart but i have to render it in the field "Your order" Shit
+
+- finish deleting the card when user wanna remove the card => done
+
+- finish all the functions of address like remove address, select current address and show it on the header => done
+    + Idea:
+        - maybe fix the UI that have a radio button on the left of the card, and do the same with the select card so when they select it, i will save it to the localStorage
+        - delete and update still dont know how to do =<<  => done
+
+- should i add some toast like sweetAlert when they pay the bill ? 
+
+- search the map => done
+
+- search Item if not found redirect to error or found redirect to detail page => done
+
+- responsive the fucking navbar and header which i have the most but i finally done -> done
+
+- responsive all the fucking website => done
+++++++++++++++FUCK THAT IS ALL I HAVE TO DO ON MY REST DAY++++++++++++++++
++++++++++++++++++++++++++TOO MUCH FUCK +++++++++++++++++++++++++++++++++
+
+
+backup
+    // apiKey: "AIzaSyBZKnLrFGH1annstnC77khEBhLNYnnGgbQ",
+    // authDomain: "coffe-store-9806a.firebaseapp.com",
+    // projectId: "coffe-store-9806a",
+    // storageBucket: "coffe-store-9806a.appspot.com",
+    // messagingSenderId: "707247997254",
+    // appId: "1:707247997254:web:8ea4cc53831a53c4cc2547",
+    // measurementId: "G-LJE61XS6WQ"

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nhập thông tin sản phẩm</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+        }
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+        }
+
+        button {
+            padding: 10px;
+            background: green;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Nhập thông tin sản phẩm</h2>
+    <form id="productForm">
+        <div class="form-group">
+            <label for="name">Tên sản phẩm</label>
+            <input type="text" id="name" required>
+        </div>
+
+        <div class="form-group">
+            <label for="category">Danh mục</label>
+            <input type="text" id="category" required>
+        </div>
+
+        <div class="form-group">
+            <label for="description">Mô tả</label>
+            <textarea id="description" rows="5" required></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="image">Ảnh sản phẩm</label>
+            <input type="url" id="image" required>
+        </div>
+
+        <div class="form-group">
+            <label for="price">Giá (VND)</label>
+            <input type="number" id="price" required>
+        </div>
+
+        <div class="form-group">
+            <label for="size">Kích cỡ</label>
+            <input type="text" id="size" required>
+        </div>
+
+        <div class="form-group">
+            <label>Best Seller</label>
+            <select id="isBestSeller">
+                <option value="true">Có</option>
+                <option value="false" selected>Không</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Lượng Đá</label>
+            <select id="ice">
+                <option value="">Không</option>
+                <option value="Ít">Ít</option>
+                <option value="Bình thường" selected>Bình thường</option>
+                <option value="Nhiều">Nhiều</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Lượng Đường</label>
+            <select id="sugar">
+                <option value="">Không</option>
+                <option value="Ít">Ít</option>
+                <option value="Bình thường" selected>Bình thường</option>
+                <option value="Nhiều">Nhiều</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Lượng Trà</label>
+            <select id="tea">
+                <option value="">Không</option>
+                <option value="Ít">Ít</option>
+                <option value="Bình thường" selected>Bình thường</option>
+                <option value="Nhiều">Nhiều</option>
+            </select>
+        </div>
+
+        <button type="submit">Thêm sản phẩm</button>
+    </form>
+
+</body>
+
+
+
+<script type="module">
+
+    import { db } from "../config/firebase.js";
+    import { collection, getDocs, addDoc, query, orderBy, limit, startAfter } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+    async function addProduct(product) {
+        try {
+            const docRef = await addDoc(collection(db, "Products"), product);
+            console.log("Sản phẩm đã được thêm với ID:", docRef.id);
+        } catch (error) {
+            console.error("Lỗi khi thêm sản phẩm Firestore:", error);
+        }
+    }
+
+    // Wait for form submission
+    document.getElementById('productForm').addEventListener('submit', async function (event) {
+        event.preventDefault(); // Prevent default form submission (page reload)
+
+        // Get values from the form fields
+        const productName = document.getElementById("name").value;
+        const productPrice = document.getElementById("price").value;
+        const productImage = document.getElementById("image").value;
+        const productCategory = document.getElementById("category").value;
+        const productDescription = document.getElementById("description").value;
+        const productSize = document.getElementById("size").value;
+        const isBestSeller = document.getElementById("isBestSeller").value === "true";
+        const ice = document.getElementById("ice").value;
+        const sugar = document.getElementById("sugar").value;
+        const tea = document.getElementById("tea").value;
+
+        // Create the product object to add to Firestore
+        const newProduct = {
+            name: productName,
+            price: productPrice,
+            image: productImage,
+            category: productCategory,
+            description: productDescription,
+            size: productSize,
+            isBestSeller: isBestSeller,
+            options: { ice, sugar, tea }
+        };
+
+        console.log(newProduct); // Log the new product to check
+
+        try {
+            // Add the product to Firestore
+            await addProduct(newProduct);
+            alert("Sản phẩm đã được thêm thành công!");
+        } catch (error) {
+            console.error("Lỗi khi thêm sản phẩm:", error);
+        }
+    });
+</script>
+<script type="module" src="../config/firebase.js"></script>
+<!-- <script type="module" src="../Firebase/firebaseService.js"></script> -->
+
+</html>

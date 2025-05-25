@@ -1,0 +1,126 @@
+@use "./variable";
+
+@use "./mixin";
+// @use './grid';
+// @use './base';
+@use "./header";
+@use "./navbar";
+// @use "./profile";
+// @use './payment';
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container {
+    max-width: 1140px;
+    margin: 0 auto;
+}
+
+.card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+
+.card-title {
+    width: 100%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.btn-option {
+    background-color: #e0e0e0;
+    /* Màu xám mặc định */
+    color: black;
+    border: none;
+}
+
+.btn-option.active {
+    background-color: #006F3C !important;
+    /* Màu xanh khi chọn */
+    color: white !important;
+}
+
+.swiper-container {
+    width: 100%;
+    max-width: 1200px;
+    /* Giới hạn độ rộng tối đa */
+    margin: 0 auto;
+    /* Căn giữa slider */
+    padding: 20px 0;
+    /* Tạo khoảng cách với phần tử khác */
+}
+
+.swiper-slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+    /* Giới hạn chiều cao */
+}
+
+.swiper-slide .card {
+    width: 100%;
+    max-width: 250px;
+    /* Giới hạn kích thước thẻ */
+}
+
+.swiper-slide img {
+    height: 180px;
+    /* Giới hạn chiều cao ảnh */
+    object-fit: cover;
+    /* Đảm bảo ảnh không bị méo */
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+    color: #006F3C;
+    /* Đổi màu nút điều hướng */
+}
+
+.swiper-pagination {
+    bottom: -10px;
+    /* Đẩy xuống dưới */
+}
+
+.w-15 {
+    width: 15%;
+}
+
+#searchInput {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+}
+
+#storeList {
+    display: none;
+    margin-top: 10px;
+    height: 400px;
+    overflow-y: auto;
+
+}
+
+#storeCount {
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.store-item {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 5px;
+    background: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+#map {
+    width: 100%;
+    height: 400px;
+    margin-top: 10px;
+    z-index: 2;
+}

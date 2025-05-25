@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en" style="scroll-behavior: smooth;">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phúc Long Coffe Store</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="../js/index.js"></script>
+</head>
+<style>
+    .card {
+        width: 16rem;
+    }
+
+    @media screen and (max-width: 768px) {
+        .card {
+            width: 100%;
+        }
+
+    }
+</style>
+
+<body>
+    <header id="header" class="header"></header>
+    <script>
+        load("#header", "../components/header/header.html");
+    </script>
+    <nav id="navbar" class="navbar p-0"></nav>
+    <script>
+        load("#navbar", "../components/navbar/navbar.html");
+    </script>
+
+    <main class="container">
+        <div class="banner">
+            <img src="../assets/images/hero_banner.jpg" class="w-100">
+        </div>
+
+        <h2 class="mt-2 text-center py-3 text-uppercase" id="coffe_pack" style="color: #006F3C;">Cà Phê Gói - Vị ngon
+            bừng vị giác
+        </h2>
+        <div id="coffe_pack_product" class="container row"></div>
+
+        <h2 class="mt-2 text-center py-3 text-uppercase" id="new_year_collection" style="color: #006F3C;">BST HỘP QUÀ
+            TẾT - MÙA HOA NỞ
+            2025
+        </h2>
+        <div id="new_year_collect_product" class="container row"></div>
+
+        <!-- Best Seller Part -->
+        <h2 class="mt-2 text-center py-3 text-uppercase" style="color: #006F3C;">BEST SELLERS -
+            TRÀ THƠM CHẤT LƯỢNG
+        </h2>
+        <div id="best_seller_collection" class="container row"></div>
+
+        <h2 class="mt-2 text-center py-3 text-uppercase" style="color: #006F3C;">Tin tức và
+            khuyến mãi
+        </h2>
+        <p class="mt-2 text-center text-uppercase">Tin tức và
+            khuyến mãi của Phúc Long
+        </p>
+        <div id="blog_collection" class="container row"></div>
+        <div class="container">
+            <h2 class="mt-2 text-center py-3 text-uppercase" style="color: #006F3C;">Tìm kiếm cửa hàng</h2>
+            <p class="mt-2 text-center text-uppercase">Tìm kiếm các cửa hàng Phúc Long gần bạn
+            </p>
+            <input type="text" id="searchInput" placeholder="Nhập tỉnh thành phố nơi bạn muốn tìm...">
+            <p id="storeCount" class="text-center fs-4 fw-bold text-success" style="display: none;"></p>
+
+            <!-- <div id="storeList"></div>
+            <div id="map"></div> -->
+            <div class="row my-4">
+                <div class="col-lg-8 col-md-12 col-sm-12">
+                    <div id="map"></div>
+                </div>
+                <div class="col-lg-4 col-md-12 col-sm-12">
+                    <div id="storeList">
+                    </div>
+                </div>
+            </div>
+    </main>
+    <footer id="footer"></footer>
+    <script>
+        load("#footer", "../components/footer/footer.html");
+    </script>
+
+</body>
+
+<script type="module" src="../config/firebase.js"></script>
+<script type="module" src="../js/home.js"></script>
+<script type="module" src="../components/header/header.js"></script>
+<script type="module">
+    import { db } from "../config/firebase.js";
+    import { collection, getDocs, query, } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+    const blog_collection = document.querySelector('#blog_collection');
+
+    document.addEventListener('DOMContentLoaded', async () => {
+        const querySnapshot = await getDocs(collection(db, "Blogs"));
+        let blogs = [];
+
+        querySnapshot.forEach((doc) => {
+            blogs.push({ ...doc.data(), id: doc.id });
+        });
+        renderBlogs(blogs);
+
+        let stores = [];
+        let map;
+        let markers = [];
+
+        async function fetchStores() {
+            try {
+                const response = await fetch('http://localhost:4000/stores');
+                if (!response.ok) throw new Error("Lỗi kết nối API!");
+
+                const data = await response.json();
+                console.log("Dữ liệu nhận được:", data); // In ra console để kiểm tra
+
+                if (!data || !Array.isArray(data)) throw new Error("Dữ liệu API không hợp lệ!");
+
+                stores = data;
+                displayStores(stores);
+            } catch (error) {
+                console.error("Lỗi khi tải dữ liệu:", error);
+            }
+        }
+
+        window.centerMap = function (lat, lng) {
+            if (map) {
+                map.setView([lat, lng], 15);
+            } else {
+                console.error("Bản đồ chưa được khởi tạo!");
+            }
+        }
+
+        function displayStores(filteredStores) {
+            const storeList = document.getElementById("storeList");
+            if (!storeList) {
+                console.error("Không tìm thấy phần tử 'storeList'!");
+                return;
+            }
+            storeList.innerHTML = "";
+
+            filteredStores.forEach(store => {
+                const storeItem = document.createElement("div");
+                storeItem.className = "store-item";
+                storeItem.innerHTML = `
+            <p class="fs-4 text-success fw-bold">${store.name}</p>
+            <p class="fs-6 fw-medium text-primary ">Địa chỉ: ${store.address}</p>
+            <p>Giờ mở cửa: ${store.openingHours} - ${store.closingHours}</p>
+            <button class="btn btn-success" onclick="centerMap(${store.location.lat}, ${store.location.lng})">Xem trên bản đồ</button>
+        `;
+                storeList.appendChild(storeItem);
+            });
+
+            updateMarkers(filteredStores);
+        }
+
+
+
+        function updateMarkers(filteredStores) {
+            if (!map) return;
+
+            markers.forEach(marker => marker.remove());
+            markers = [];
+
+            filteredStores.forEach(store => {
+                if (store.location) {
+                    const marker = L.marker([store.location.lat, store.location.lng])
+                        .addTo(map)
+                        .bindPopup(`<b>${store.name}</b><br>${store.address}`);
+                    markers.push(marker);
+                } else {
+                    console.warn(`Cửa hàng "${store.name}" không có thông tin vị trí!`);
+                }
+            });
+        }
+
+        function searchStores() {
+            const searchInput = document.getElementById("searchInput");
+            const storeList = document.getElementById("storeList");
+            const storeCount = document.getElementById("storeCount");
+
+            if (!searchInput || !storeList || !storeCount) {
+                console.error("Không tìm thấy phần tử cần thiết!");
+                return;
+            }
+
+            const searchQuery = searchInput.value.toLowerCase();
+            const filteredStores = stores.filter(store =>
+                store.name.toLowerCase().includes(searchQuery) ||
+                store.address.toLowerCase().includes(searchQuery)
+            );
+            storeCount.style.display = "block"; // Hiển thị số lượng cửa hàng
+
+            storeCount.innerText = `Tìm thấy ${filteredStores.length} cửa hàng gần bạn!`;
+
+            if (filteredStores.length > 0) {
+                storeList.style.display = "block";
+            } else {
+                storeList.style.display = "none"; // Ẩn nếu không có cửa hàng nào phù hợp
+            }
+
+            displayStores(filteredStores);
+        }
+
+
+        function initMap() {
+            map = L.map('map').setView([21.028511, 105.804817], 13);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
+            }).addTo(map);
+
+            fetchStores();
+        }
+
+        initMap();
+
+        const searchInput = document.getElementById("searchInput");
+        if (searchInput) {
+            searchInput.addEventListener("input", searchStores);
+        } else {
+            console.error("Không tìm thấy phần tử 'searchInput' để gán sự kiện tìm kiếm!");
+        }
+    })
+
+
+    async function renderBlogs(blogs) {
+        blogs.map((blog) => {
+            var html = `
+                <a href = "/pages/blog_detail.html?id=${blog.id}" class="text-decoration-none col-lg-3 col-md-6 col-sm-12 my-2">
+                    <div class="col-lg-3 col-md-6 col-sm-12 my-2">
+                <div class="card">
+                    <div class="position-relative">
+                        <img src="${blog.image}" class="bg-body-secondary rounded-2  overflow-hidden w-100" alt="..." style="height:200px">
+                        
+                    </div>
+                    
+                    <div class="card-body">
+                        <h5 class="card-title fw-normal w-100 text-decoration-none" style="color: #006F3C;"><i class="bi bi-eye me-2"></i>${blog.views}</h5>
+                        <h5 class="card-title fw-normal w-100 text-decoration-none fw-bold" style="color: #006F3C;">${blog.title}</h5>
+                        
+                        <div class="w-100">
+                            <button class="btn text-white w-100" style="background-color: #006F3C;"  onclick="window.location.href='/pages/blog_detail.html?id=${blog.id}'"><i class="bi bi-cart-plus"></i> Xem thêm</button>
+                        </div>
+                    </div>
+                </div>
+            </div>    
+                </a>
+            `;
+            blog_collection.innerHTML += html;
+        })
+    }
+
+</script>
+
+</html>
